@@ -1,33 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
 ---
 <Layout title="Gabriele Sicari – Websites für kleine Betriebe">
-  <section class="relative overflow-hidden">
-    <div class="max-w-5xl mx-auto px-6 py-24 sm:py-32 text-center">
-      <p class="text-sm font-medium text-emerald-600 mb-4">Websites für kleine Betriebe</p>
-      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900">
-        Eine Website, die <span class="text-emerald-600">Kunden bringt</span> – ohne Kopfschmerzen
-      </h1>
-      <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
-        Ich baue schnelle, moderne Websites für kleine Betriebe – von der ersten Idee bis zum
-        Livegang. Klar, ehrlich, ohne Fachchinesisch.
-      </p>
-      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="#angebot"
-          class="rounded-full bg-gray-900 text-white px-6 py-3 text-sm font-semibold hover:bg-gray-700 transition"
-        >
-          Angebot ansehen
-        </a>
-        <a
-          href="#kontakt"
-          class="rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold hover:bg-gray-50 transition"
-        >
-          Kontakt aufnehmen
-        </a>
-      </div>
-    </div>
-  </section>
+  <Hero />
   <section id="angebot" class="h-96 grid place-items-center bg-gray-50">Angebot</section>
   <section id="referenzen" class="h-96 grid place-items-center">Referenzen</section>
   <section id="kontakt" class="h-96 grid place-items-center bg-gray-50">Kontakt</section>

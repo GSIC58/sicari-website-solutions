@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Bricolage Grotesque Variable", sans-serif;
+
+  /* Palette „Abendrot“ */
+  --color-ink: #231A1C;
+  --color-primary: #8E2A36;
+  --color-primary-hover: #6E1F29;
+  --color-accent: #E2A72E;
+  --color-cream: #FBF3E6;
+  --color-muted: #6B5F5C;
+}
