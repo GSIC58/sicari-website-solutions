@@ -1,30 +1,45 @@
 ---
+import { Image } from "astro:assets";
+import Pfeil from "./Pfeil.astro";
+import muster from "../assets/hero-muster-orange.png";
+
 const vorteile = [
   "Festpreis ab 490 €",
   "Online in 2 bis 4 Wochen",
-  "Persönlich betreut aus Vorarlberg",
+  "Eine Ansprechperson in Vorarlberg",
 ];
 ---
 <section class="relative overflow-hidden bg-cream">
-  <div class="max-w-6xl mx-auto px-6 pt-16 pb-20 md:pt-24 md:pb-28 grid gap-14 md:grid-cols-[1.05fr_1fr] items-center">
+  <!-- Muster: helle Höhenlinien, das warme Leuchten sitzt rechts hinter dem Mockup -->
+  <Image
+    src={muster}
+    alt=""
+    widths={[800, 1200, 1800, 2400]}
+    sizes="100vw"
+    format="avif"
+    loading="eager"
+    fetchpriority="high"
+    class="pointer-events-none absolute inset-0 h-full w-full object-cover object-[75%_50%] md:object-right"
+  />
+
+  <div class="relative max-w-page mx-auto px-6 lg:px-10 pt-16 pb-20 md:pt-24 md:pb-28 grid gap-14 md:grid-cols-[1.05fr_1fr] items-center">
 
     <div>
-      <h1 class="font-display text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight text-ink">
-        Ihr Betrieb verdient eine Website, die man gern besucht.
+      <h1 class="titel-einschweben font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-ink">
+        Ihre Kunden suchen zuerst im Internet. Dort sollten sie Sie finden.
       </h1>
-      <p class="mt-6 text-lg text-muted max-w-[34rem] leading-relaxed">
-        Ich baue schnelle, moderne Websites für kleine Betriebe. Zum Festpreis,
-        ohne Fachchinesisch und mit einer Ansprechperson von Anfang bis Ende.
+      <p class="intro-text [--verzoegerung:160ms] mt-6 text-lg text-ink/80 max-w-[38rem] leading-relaxed">
+        Sie erzählen mir, was Ihren Betrieb ausmacht. Um Gestaltung, Technik
+        und Einrichtung kümmere ich mich.
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#kontakt"
-           class="rounded-full bg-primary px-6 py-3 font-medium text-white hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-          Projekt anfragen
+        <a href="#kontakt" class="btn btn-primary">
+          Erstgespräch anfragen
+          <Pfeil />
         </a>
-        <a href="#angebot"
-           class="rounded-full border border-primary/30 px-6 py-3 font-medium text-primary hover:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-          Pakete ansehen
+        <a href="#angebot" class="btn btn-secondary">
+          Preise ansehen
         </a>
       </div>
 
@@ -38,11 +53,12 @@ const vorteile = [
       </ul>
     </div>
 
-    <!-- Browser-Mockup einer Beispiel-Kundenseite -->
-    <div class="relative" aria-hidden="true">
-      <div class="absolute -inset-6 md:-inset-10 rounded-[2.5rem] bg-primary/[0.06]"></div>
 
-      <div class="relative rounded-2xl border border-black/10 bg-white shadow-[0_30px_60px_-20px_rgba(142,42,54,0.35)] overflow-hidden">
+    <!-- Browser-Mockup einer Beispiel-Kundenseite -->
+    <div class="group relative" aria-hidden="true">
+      <div class="intro-stapel-unten absolute -inset-4 2xl:-inset-10 rounded-[2.5rem] bg-primary/[0.06]"></div>
+
+      <div class="intro-stapel-oben relative rounded-2xl border border-black/10 bg-white shadow-[0_30px_60px_-20px_rgba(163,70,42,0.35)] overflow-hidden transition duration-500 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_40px_70px_-20px_rgba(163,70,42,0.45)] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
         <div class="flex items-center gap-2 border-b border-black/5 bg-[#F4F6F5] px-4 py-3">
           <span class="h-3 w-3 rounded-full bg-[#E26D5C]"></span>
           <span class="h-3 w-3 rounded-full bg-accent"></span>
@@ -53,7 +69,7 @@ const vorteile = [
         <div class="p-6">
           <div class="flex items-center justify-between">
             <span class="font-display font-bold text-ink">Tischlerei Beispiel</span>
-            <div class="flex gap-3">
+            <div class="hidden sm:flex gap-3">
               <span class="h-2 w-10 rounded bg-black/10"></span>
               <span class="h-2 w-10 rounded bg-black/10"></span>
               <span class="h-2 w-10 rounded bg-black/10"></span>
@@ -72,9 +88,9 @@ const vorteile = [
         </div>
       </div>
 
-      <!-- Der eine animierte Moment: eine Anfrage kommt rein -->
-      <div class="anfrage absolute -bottom-6 -left-4 md:-left-10 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-lg border border-black/5">
-        <span class="grid h-9 w-9 place-items-center rounded-full bg-accent/20 text-[#8A5F0F] font-bold">✓</span>
+      <!-- Eine Anfrage kommt rein (Teil der Eröffnungsanimation) -->
+      <div class="intro-anfrage absolute -bottom-6 -left-4 md:-left-10 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-lg border border-black/5">
+        <span class="grid h-9 w-9 place-items-center rounded-full bg-accent/20 text-accent-dark font-bold">✓</span>
         <div>
           <p class="text-sm font-medium text-ink">Neue Anfrage erhalten</p>
           <p class="text-xs text-muted">über das Kontaktformular</p>
@@ -84,16 +100,3 @@ const vorteile = [
 
   </div>
 </section>
-
-<style>
-  .anfrage {
-    animation: reinkommen 0.7s ease-out 0.8s both;
-  }
-  @keyframes reinkommen {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .anfrage { animation: none; }
-  }
-</style>

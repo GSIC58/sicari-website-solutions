@@ -1,10 +1,28 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
+import Angebot from "../components/Angebot.astro";
+import Fair from "../components/Fair.astro";
+import Ablauf from "../components/Ablauf.astro";
+import UeberMich from "../components/UeberMich.astro";
+import Kontakt from "../components/Kontakt.astro";
 ---
 <Layout title="Gabriele Sicari – Websites für kleine Betriebe">
+  <!-- Eröffnungsanimation nur beim ersten Aufruf pro Sitzung. Läuft vor dem ersten Zeichnen,
+       damit nichts aufblitzt. Ohne sessionStorage (z. B. blockiert) gibt es keine Animation. -->
+  <script is:inline slot="head">
+    try {
+      if (!sessionStorage.getItem("intro-gesehen")) {
+        sessionStorage.setItem("intro-gesehen", "1");
+        document.documentElement.classList.add("intro");
+      }
+    } catch (e) {}
+  </script>
   <Hero />
-  <section id="angebot" class="h-96 grid place-items-center bg-gray-50">Angebot</section>
-  <section id="referenzen" class="h-96 grid place-items-center">Referenzen</section>
-  <section id="kontakt" class="h-96 grid place-items-center bg-gray-50">Kontakt</section>
+  <Angebot />
+  <Fair />
+  <Ablauf />
+  <section id="referenzen" class="h-96 grid place-items-center bg-white">Referenzen</section>
+  <UeberMich />
+  <Kontakt />
 </Layout>

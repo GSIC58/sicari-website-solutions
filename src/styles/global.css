@@ -2,12 +2,148 @@
 
 @theme {
   --font-display: "Bricolage Grotesque Variable", sans-serif;
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
 
-  /* Palette „Abendrot“ */
-  --color-ink: #231A1C;
-  --color-primary: #8E2A36;
-  --color-primary-hover: #6E1F29;
-  --color-accent: #E2A72E;
-  --color-cream: #FBF3E6;
-  --color-muted: #6B5F5C;
+  /* Maximale Inhaltsbreite der Seite (max-w-page) */
+  --container-page: 90rem;
+
+  /* Palette „Kupfernebel“ – abgestimmt auf public/hero-background.avif */
+  --color-ink: #1F1C27;
+  --color-primary: #A3462A;
+  --color-primary-hover: #82361F;
+  --color-accent: #E39A52;
+  --color-accent-dark: #8A4B17;
+  --color-cream: #F7F2EC;
+  --color-muted: #625C69;
+
+  /* Kupferfarbene Schatten für angehobene Karten und Buttons */
+  --shadow-karte: 0 24px 48px -20px rgb(163 70 42 / 0.35);
+  --shadow-knopf: 0 10px 20px -8px rgb(163 70 42 / 0.55);
+
+  /* Weiches Abbremsen ohne Überschwingen */
+  --ease-weich: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Buttons: immer „btn“ plus „btn-primary“ oder „btn-secondary“ */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-center font-medium transition duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:scale-[0.98] motion-reduce:transition-colors motion-reduce:active:scale-100;
+
+  /* Pfeil (Pfeil.astro) rutscht beim Hovern nach rechts */
+  & .pfeil {
+    @apply transition-transform duration-200 ease-out motion-reduce:transition-none;
+  }
+  @media (hover: hover) {
+    &:hover:not(:disabled) .pfeil {
+      @apply translate-x-1 motion-reduce:translate-x-0;
+    }
+  }
+}
+
+@utility btn-primary {
+  @apply bg-primary text-white hover:not-disabled:-translate-y-0.5 hover:not-disabled:bg-primary-hover hover:not-disabled:shadow-knopf motion-reduce:hover:translate-y-0;
+}
+
+@utility btn-secondary {
+  @apply border border-primary/30 text-primary hover:-translate-y-0.5 hover:border-primary hover:bg-primary/5 motion-reduce:hover:translate-y-0;
+}
+
+/* Karten, die sich beim Hovern (oder Tastatur-Fokus darin) leicht anheben */
+@utility karte-hover {
+  @apply transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-karte focus-within:-translate-y-1.5 focus-within:shadow-karte motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0;
+}
+
+/* Navigationslinks: Linie wächst beim Hovern von links ein */
+@utility nav-link {
+  @apply relative transition-colors hover:text-primary;
+
+  &::after {
+    content: "";
+    @apply absolute inset-x-0 -bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-primary transition-transform duration-300 ease-out motion-reduce:transition-none;
+  }
+  &:hover::after,
+  &:focus-visible::after {
+    @apply scale-x-100;
+  }
+}
+
+/* Inhalte gleiten beim Scrollen sanft ins Bild.
+   Nur in Browsern, die scroll-gesteuerte Animationen können – sonst sofort sichtbar. */
+@keyframes einblenden {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .einblenden {
+      animation: einblenden linear both;
+    }
+    /* Eigener Selektor, damit der Minifier die Timeline nicht in die
+       animation-Kurzschreibweise zieht (dort ist sie ungültig) */
+    [class~="einblenden"] {
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* ── Eröffnungsanimation der Startseite ─────────────────────────────────────
+   Nur wenn html.intro gesetzt ist (erster Aufruf pro Sitzung, siehe index.astro)
+   und keine reduzierte Bewegung gewünscht ist. Nur transform und opacity.
+   Zeitplan (ms):  Sonne 0–600 · Striche 300/380/460 +250 · Überschrift 80 +500
+                   Untertitel 160 +500 · Stapel 250/330 +450 · Anfrage 620 +350 */
+@keyframes intro-sonne {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+@keyframes intro-einblenden {
+  from { opacity: 0; transform: translateY(var(--weg, 12px)); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes intro-stapel-oben {
+  from { opacity: 0; transform: translateY(24px) rotate(3deg) scale(0.95); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes intro-stapel-unten {
+  from { opacity: 0; transform: rotate(-4deg) scale(0.95); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro .logo-sonne {
+    transform-box: fill-box;
+    animation: intro-sonne 600ms var(--ease-weich) both;
+  }
+  .intro .logo-strich {
+    --weg: 20px;
+    transform-box: fill-box;
+    animation: intro-einblenden 250ms var(--ease-weich) both;
+  }
+  .intro .logo-strich-1 { animation-delay: 300ms; }
+  .intro .logo-strich-2 { animation-delay: 380ms; }
+  .intro .logo-strich-3 { animation-delay: 460ms; }
+
+  .intro .intro-text {
+    animation: intro-einblenden 500ms var(--ease-weich) var(--verzoegerung, 0ms) both;
+  }
+  .intro .intro-stapel-unten {
+    animation: intro-stapel-unten 450ms var(--ease-weich) 250ms both;
+  }
+  .intro .intro-stapel-oben {
+    animation: intro-stapel-oben 450ms var(--ease-weich) 330ms both;
+  }
+  .intro .intro-anfrage {
+    --weg: 16px;
+    animation: intro-einblenden 350ms var(--ease-weich) 620ms both;
+  }
+}
+
+/* Hero-Überschrift: schwebt bei jedem Laden von unten ein und wird sichtbar */
+@keyframes titel-einschweben {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .titel-einschweben {
+    animation: titel-einschweben 800ms var(--ease-weich) 100ms both;
+  }
 }

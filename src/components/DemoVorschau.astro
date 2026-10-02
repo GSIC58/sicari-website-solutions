@@ -1,0 +1,89 @@
+---
+interface Props {
+  url: string;
+  titel: string;
+}
+const { url, titel } = Astro.props;
+---
+<div class="demo-vorschau" data-modus="computer">
+  <div class="flex items-center justify-between gap-4 mb-4">
+    <span class="text-sm text-muted">Beispielseite: {titel}</span>
+    <div class="inline-flex rounded-full border border-ink/15 bg-white p-1 text-sm" role="group" aria-label="Ansicht wählen">
+      <button type="button" data-modus-btn="computer" aria-pressed="true"
+        class="rounded-full px-4 py-1.5 transition-colors hover:not-aria-pressed:text-primary aria-pressed:bg-primary aria-pressed:text-white focus-visible:outline-2 focus-visible:outline-primary">
+        Computer
+      </button>
+      <button type="button" data-modus-btn="handy" aria-pressed="false"
+        class="rounded-full px-4 py-1.5 transition-colors hover:not-aria-pressed:text-primary aria-pressed:bg-primary aria-pressed:text-white focus-visible:outline-2 focus-visible:outline-primary">
+        Handy
+      </button>
+    </div>
+  </div>
+
+  <div class="buehne relative w-full overflow-hidden">
+    <div class="rahmen absolute top-0 left-0 origin-top-left overflow-hidden bg-white">
+      <iframe src={url} title={`${titel} – Vorschau`} loading="lazy" class="block w-full h-full border-0"></iframe>
+    </div>
+  </div>
+
+  <a href={url} target="_blank" rel="noopener" class="mt-4 inline-block text-sm text-primary underline hover:text-primary-hover">
+    Live-Demo in neuem Tab öffnen
+  </a>
+</div>
+
+<style>
+  .demo-vorschau[data-modus="computer"] .rahmen {
+    border: 1px solid rgb(0 0 0 / 0.12);
+    border-radius: 12px;
+  }
+  .demo-vorschau[data-modus="handy"] .rahmen {
+    border: 10px solid var(--color-ink);
+    border-radius: 2.5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rahmen { transition: transform 0.3s ease, left 0.3s ease; }
+  }
+</style>
+
+<script>
+  // Größen der simulierten Bildschirme (Breite × Höhe in Pixel)
+  const GROESSEN = {
+    computer: { breite: 1280, hoehe: 800, rand: 1 },
+    handy: { breite: 390, hoehe: 780, rand: 10 },
+  } as const;
+
+  type Modus = keyof typeof GROESSEN;
+
+  document.querySelectorAll<HTMLElement>(".demo-vorschau").forEach((vorschau) => {
+    const buehne = vorschau.querySelector<HTMLElement>(".buehne")!;
+    const rahmen = vorschau.querySelector<HTMLElement>(".rahmen")!;
+    const knoepfe = vorschau.querySelectorAll<HTMLButtonElement>("[data-modus-btn]");
+
+    function anpassen() {
+      const modus = vorschau.dataset.modus as Modus;
+      const { breite, hoehe, rand } = GROESSEN[modus];
+      const aussenBreite = breite + rand * 2;
+      const aussenHoehe = hoehe + rand * 2;
+
+      // Verkleinern, damit die Vorschau immer in den verfügbaren Platz passt
+      const faktor = Math.min(1, buehne.clientWidth / aussenBreite);
+
+      rahmen.style.width = `${aussenBreite}px`;
+      rahmen.style.height = `${aussenHoehe}px`;
+      rahmen.style.transform = `scale(${faktor})`;
+      rahmen.style.left = `${(buehne.clientWidth - aussenBreite * faktor) / 2}px`;
+      buehne.style.height = `${aussenHoehe * faktor}px`;
+    }
+
+    knoepfe.forEach((knopf) => {
+      knopf.addEventListener("click", () => {
+        vorschau.dataset.modus = knopf.dataset.modusBtn;
+        knoepfe.forEach((k) => k.setAttribute("aria-pressed", String(k === knopf)));
+        anpassen();
+      });
+    });
+
+    new ResizeObserver(anpassen).observe(buehne);
+    anpassen();
+  });
+</script>

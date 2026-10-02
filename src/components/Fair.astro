@@ -1,0 +1,48 @@
+---
+const punkte = [
+  {
+    titel: "Festpreis",
+    text: "Der Preis im Angebot ist der Preis auf der Rechnung. Mehr kostet es nur, wenn Sie mehr wollen – und das besprechen wir vorher.",
+    icon: '<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r="1"/>',
+  },
+  {
+    titel: "Zahlung in zwei Teilen",
+    text: "50 % zum Start. 50 % erst, wenn Sie die fertige Website gesehen haben.",
+    icon: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+  },
+  {
+    titel: "Die Website gehört Ihnen",
+    text: "Kein Abo, keine Mindestlaufzeit. Die Erstellung zahlen Sie einmal.",
+    icon: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/>',
+  },
+  {
+    titel: "Erstgespräch kostenlos",
+    text: "Sie verpflichten sich zu nichts. Nach dem Gespräch bekommen Sie ein Angebot und entscheiden in Ruhe.",
+    icon: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+  },
+];
+---
+<section id="fair" class="py-20 md:py-28">
+  <div class="max-w-page mx-auto px-6 lg:px-10">
+    <div class="einblenden max-w-3xl">
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight text-ink">
+        Worauf Sie sich verlassen können
+      </h2>
+      <p class="mt-4 text-lg text-muted leading-relaxed">
+        Bevor Sie etwas zahlen, wissen Sie genau, was Sie bekommen.
+      </p>
+    </div>
+
+    <ul class="einblenden mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {punkte.map((p) => (
+        <li class="karte-hover group rounded-2xl bg-white p-7 ring-1 ring-ink/10 hover:ring-primary/40 md:p-8">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-primary/[0.06] text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={p.icon} />
+          </span>
+          <h3 class="mt-5 font-display text-xl font-bold text-ink">{p.titel}</h3>
+          <p class="mt-2 text-muted leading-relaxed">{p.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

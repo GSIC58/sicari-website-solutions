@@ -1,0 +1,71 @@
+---
+import { Image } from "astro:assets";
+import { kontakt } from "../data/kontakt";
+import { foto, initialen } from "../data/foto";
+---
+<section id="ueber-mich" class="py-20 md:py-28">
+  <div class="max-w-page mx-auto px-6 lg:px-10">
+    <div class="einblenden grid items-start gap-10 md:grid-cols-[auto_1fr] md:gap-16">
+      {foto ? (
+        <Image
+          src={foto}
+          alt={`Foto von ${kontakt.name}`}
+          width={512}
+          height={512}
+          class="h-48 w-48 rounded-3xl object-cover shadow-karte md:h-64 md:w-64"
+        />
+      ) : (
+        <span
+          class="grid h-48 w-48 place-items-center rounded-3xl bg-primary/[0.06] font-display text-6xl font-bold text-primary md:h-64 md:w-64"
+          aria-hidden="true"
+        >
+          {initialen}
+        </span>
+      )}
+
+      <div class="max-w-3xl">
+        <p class="text-sm font-medium text-accent-dark">Über mich</p>
+        <h2 class="mt-2 font-display text-3xl md:text-4xl font-bold tracking-tight text-ink">
+          Kleine Betriebe machen großartige Arbeit.
+        </h2>
+        <p class="mt-4 text-lg md:text-xl text-ink leading-relaxed">
+          Ich sorge dafür, dass man das online sieht: persönlich, zum Festpreis und mit
+          einer Website, die jahrelang läuft, ohne dass Sie sich um Technik kümmern müssen.
+        </p>
+
+        <div class="mt-6 space-y-4 text-muted leading-relaxed hyphens-auto">
+          <p>
+            Ich bin Gabriele Sicari, 18 Jahre alt und besuche die HTL Dornbirn im Zweig
+            Wirtschaftsingenieurwesen und Betriebsinformatik. Dort lerne ich nicht nur zu
+            programmieren, sondern auch, wie Betriebe funktionieren und was sie wirklich brauchen.
+          </p>
+          <p>
+            Die Entwicklung von Webanwendungen ist meine große Leidenschaft. Was als Interesse
+            angefangen hat, ist heute das, womit ich am liebsten meine Zeit verbringe: Ideen in
+            Websites verwandeln, die schnell, klar und zuverlässig funktionieren.
+          </p>
+          <p>
+            Bei meiner Arbeit ist mir Qualität wichtiger als Tempo. Ich teste jede Seite auf
+            Handy, Tablet und Computer, bevor sie online geht, und gebe erst ab, wenn auch die
+            Details stimmen. Termine, die ich zusage, halte ich ein. Und wenn Sie eine Frage
+            haben, bekommen Sie eine Antwort, die man ohne Technikwissen versteht.
+          </p>
+          <p>
+            Ich bin jung, und das sehe ich als Vorteil: Ich arbeite mit aktueller Technik,
+            lerne jeden Tag dazu und will mit jedem Projekt besser werden.
+          </p>
+        </div>
+
+        <!-- Drehung gleicht die 5,35° Neigung des G-Strichs im Bild aus, damit er waagrecht liegt -->
+        <img
+          src="/Unterschrift.png"
+          alt={`Unterschrift von ${kontakt.name}`}
+          width="555"
+          height="450"
+          loading="lazy"
+          class="-mb-2 -ml-4 mt-2 h-48 w-auto -rotate-[5.35deg]"
+        />
+      </div>
+    </div>
+  </div>
+</section>
